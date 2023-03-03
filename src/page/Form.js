@@ -59,14 +59,15 @@ const Form = ({ dataTranfer, publicKey }) => {
   };
   return (
     <Wrap>
+      hellooo
       {Object.entries(dataTranfer).length > 0 && renderListModal(dataTranfer)}
     </Wrap>
   );
 };
 
 const Wrap = styled.div`
-  width: 100vw;
-  height: 100vh;
+  /* width: 100%;
+  height: 100%; */
   position: relative;
   .top_left {
     top: 20px;

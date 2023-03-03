@@ -147,7 +147,7 @@ const FormView = ({ active, publicKey, dataMess, setActive }) => {
       dataMess.outer_domain
     );
   };
-
+  console.log("conifg", config);
   return (
     <>
       {Object.entries(config).length > 0 && (
