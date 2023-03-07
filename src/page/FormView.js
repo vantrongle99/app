@@ -14,7 +14,10 @@ const FormView = ({ active, publicKey, dataMess, setActive }) => {
   encryptor.setPublicKey(publicKey);
 
   useEffect(() => {
-    if (dataMess && Object.entries(config).length === 0) {
+    if (
+      encryptor.encrypt(JSON.stringify(dataMess)) &&
+      Object.entries(config).length === 0
+    ) {
       axios
         .post("https://crmbe.vinhnd.dev/api/internet-form/config/display", {
           data: encryptor.encrypt(JSON.stringify(dataMess)),
@@ -44,6 +47,12 @@ const FormView = ({ active, publicKey, dataMess, setActive }) => {
             id_click: config.id_click,
             id_config: config._id,
             scroll_option: config.scroll_option,
+            time_display: config.time_display,
+            apply_for: config.apply_for,
+            is_apply_all: config.is_apply_all,
+            list_website: config.list_website,
+            display_frequency: config.display_frequency,
+            status: config.status,
           },
         },
         dataMess.outer_domain
@@ -137,21 +146,15 @@ const FormView = ({ active, publicKey, dataMess, setActive }) => {
   };
 
   const handleFinish = (value) => {
-    window.parent.postMessage(
-      {
-        messageType: "close_modal",
-        value: {
-          appUrl: window.location.origin,
-        },
-      },
-      dataMess.outer_domain
-    );
+    handleCloseModal();
   };
-  console.log("conifg", config);
   return (
     <>
       {Object.entries(config).length > 0 && (
-        <WrapForm isActive={active.includes(config._id)}>
+        <WrapForm
+          isActive={active.includes(config._id)}
+          dark_screen={config.dark_screen}
+        >
           <Wrap className={config.position_display} config={config}>
             <FromWrap>
               <IntroWrap>
@@ -193,7 +196,9 @@ const WrapForm = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: ${(props) =>
+    props.dark_screen ? "rgba(0, 0, 0, 0.45)" : "transparent"};
+  line-height: 22px;
 `;
 
 const Wrap = styled.div`
@@ -204,18 +209,16 @@ const Wrap = styled.div`
 
   label {
     font-size: ${(props) => `${props.config.font_desktop}px`} !important;
-    color: ${(props) => props.config.fontColor};
-    font-family: ${(props) =>
-      props.config.font_style === "normal"
-        ? "var(--roboto-400)"
-        : props.config.font_style === "italic"
-        ? "var(--roboto-400-i)"
-        : "var(--roboto-500)"} !important;
+    color: ${(props) => props.config.font_color};
+    font-style: ${(props) =>
+      props.config.font_style === "italic" ? "italic" : "normal"} !important;
+    font-weight: ${(props) =>
+      props.config.font_style === "bold" ? "500" : 400};
     position: relative;
     ::before {
       position: absolute;
       right: -12px;
-      top: 0px;
+      top: 5px;
     }
   }
   background: #fff;
@@ -283,7 +286,7 @@ const FromWrap = styled.div`
 const IntroWrap = styled.div``;
 const Name = styled.div`
   font-size: 18px;
-  font-family: var(--roboto-500);
+  font-weight: 500;
   text-align: center;
   margin-bottom: 8px;
 `;
@@ -291,6 +294,7 @@ const Name = styled.div`
 const Description = styled.div`
   text-align: center;
   margin-bottom: 8px;
+  font-size: 16px;
 `;
 
 const ButtonWrap = styled.div`

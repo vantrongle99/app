@@ -28,9 +28,9 @@ const Form = ({ dataTranfer, publicKey }) => {
     //eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
-    console.log("active", active);
-  }, [active]);
+  // useEffect(() => {
+  //   console.log("active", active);
+  // }, [active]);
   useEffect(() => {
     if (active.length === 0) {
       window.parent.postMessage(
@@ -50,7 +50,6 @@ const Form = ({ dataTranfer, publicKey }) => {
           ...config,
           device: data.device,
           outer_domain: data.outer_domain,
-          access_count: 1,
         }}
         active={active}
         setActive={setActive}
@@ -59,7 +58,6 @@ const Form = ({ dataTranfer, publicKey }) => {
   };
   return (
     <Wrap>
-      hellooo
       {Object.entries(dataTranfer).length > 0 && renderListModal(dataTranfer)}
     </Wrap>
   );
