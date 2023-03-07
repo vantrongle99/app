@@ -18,7 +18,9 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("https://crmbe.vinhnd.dev/api/internet-form/config/get-public-key")
+      .get(
+        "https://lab.connect247.vn/ucrmapi-sso/internet-form/config/get-public-key"
+      )
       .then((res) => {
         setPublicKey(res.data.data);
       })

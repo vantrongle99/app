@@ -19,9 +19,12 @@ const FormView = ({ active, publicKey, dataMess, setActive }) => {
       Object.entries(config).length === 0
     ) {
       axios
-        .post("https://crmbe.vinhnd.dev/api/internet-form/config/display", {
-          data: encryptor.encrypt(JSON.stringify(dataMess)),
-        })
+        .post(
+          "https://lab.connect247.vn/ucrmapi-sso/internet-form/config/display",
+          {
+            data: encryptor.encrypt(JSON.stringify(dataMess)),
+          }
+        )
         .then((res) => {
           setConfig(res.data.data);
         })
